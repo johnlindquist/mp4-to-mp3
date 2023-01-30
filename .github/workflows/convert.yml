@@ -25,4 +25,5 @@ jobs:
         run: |
           ls -la
           ls -la ./.scripts          
+          cat ./.scripts/package.json
           cat ./.scripts/mp4-to-mp3.mjs
