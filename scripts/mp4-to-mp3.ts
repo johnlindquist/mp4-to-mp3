@@ -7,20 +7,15 @@ console.log(`After import...`)
 console.log(`KENV: ${process.env.KENV}`)
 
 // get the most recently added file in the current directory that is not a directory
-let { stdout: file } = await $`ls -t $(find . -maxdepth 1 -type f) | head -1`
+let { stdout: file } = await $`ls -t $(find . -maxdepth 1 -type f -name "*.mp4") | head -1`
 
 console.log({ file })
 
 file = file?.trim()
 
 if (!file) {
-  console.log(`No file found. Exiting early`)
+  console.log(`No mp4 found. Exiting early`)
   exit(0)
-}
-
-if (!file.endsWith(".mp4")) {
-  console.log(`File is not an mp4. Exiting early`)
-  exit(1)
 }
 
 let { name } = path.parse(file)
