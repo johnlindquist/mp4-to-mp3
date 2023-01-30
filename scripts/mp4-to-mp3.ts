@@ -18,6 +18,8 @@ if (!file.endsWith(".mp4")) {
 let { name } = path.parse(file)
 let output = `${name}.mp3`
 
+console.log(`Converting ${file} to ${output}`)
+
 // convert the file to mp3
 await $`ffmpeg -i ${file} ${output}`
 
