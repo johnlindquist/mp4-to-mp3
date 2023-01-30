@@ -34,8 +34,6 @@ let releaseResponse = await octokit.rest.repos.createRelease({
   ...github.context.repo,
   tag_name,
   name: tag_name,
-  prerelease: true,
-  draft: true,
 })
 
 let uploadResponse = await octokit.rest.repos.uploadReleaseAsset({
@@ -44,6 +42,12 @@ let uploadResponse = await octokit.rest.repos.uploadReleaseAsset({
   name: output,
   data: await readFile(output),
 })
+
+try {
+  console.log(`Uploaded ${output} to ${uploadResponse.data.browser_download_url}`)
+} catch (error) {
+  console.log(error)
+}
 
 let url = `https://github.com/johnlindquist/kitapp/releases/download/${tag_name}/${output}`
 
