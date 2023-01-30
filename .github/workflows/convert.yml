@@ -24,7 +24,6 @@ jobs:
       - name: Cat Files
         run: |
           ls -la
-          ls -la ./.scripts         
           cat ./package.json 
           cat ./scripts/package.json
-          cat ./.scripts/mp4-to-mp3.mjs
+          cat ./scripts/mp4-to-mp3.mjs

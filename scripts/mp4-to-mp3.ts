@@ -4,6 +4,8 @@ import "@johnlindquist/kit"
 
 console.log(`After import...`)
 
+console.log(`KENV: ${process.env.KENV}`)
+
 // get the most recently added file in the current directory
 let { stdout: file } = await $`ls -t | head -1`
 
