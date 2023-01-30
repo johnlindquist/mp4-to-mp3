@@ -7,7 +7,7 @@ console.log(`After import...`)
 console.log(`KENV: ${process.env.KENV}`)
 
 // get the most recently added file in the current directory that is not a directory
-let { stdout: files } = await $`git show HEAD --name-only --pretty="" | grep ".mp4$"`
+let { stdout: files } = await $`git diff-tree --no-commit-id --name-only -r HEAD^ | grep ".mp4$"`
 
 // convert files into an array
 let filesArray = files.split(`\n`).filter(Boolean)
