@@ -13,7 +13,7 @@ jobs:
         run: sudo apt-get install ffmpeg
 
       - name: Convert
-        users: johnlindquist/kit-action@main
+        uses: johnlindquist/kit-action@main
         with:
           script: mp4-to-mp3
         env:
