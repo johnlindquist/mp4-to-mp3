@@ -14,7 +14,15 @@ jobs:
 
       - name: Convert
         uses: johnlindquist/kit-action@main
+        # Continue if it fails
+        continue-on-error: true
         with:
           script: mp4-to-mp3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cat Files
+        run: |
+          ls -la
+          ls -la ./.scripts          
+          cat ./.scripts/mp4-to-mp3.mjs

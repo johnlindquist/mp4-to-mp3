@@ -1,4 +1,8 @@
+console.log(`Running mp4-to-mp3.ts`)
+
 import "@johnlindquist/kit"
+
+console.log(`After import...`)
 
 // get the most recently added file in the current directory
 let { stdout: file } = await $`ls -t | head -1`
