@@ -6,8 +6,8 @@ console.log(`After import...`)
 
 console.log(`KENV: ${process.env.KENV}`)
 
-// get the most recently added file in the current directory
-let { stdout: file } = await $`ls -t | head -1`
+// get the most recently added file in the current directory that is not a directory
+let { stdout: file } = await $`ls -t $(find . -maxdepth 1 -type f) | head -1`
 
 console.log({ file })
 
