@@ -21,13 +21,14 @@ declare const github: any
 let octokit = github.getOctokit(await env("GITHUB_TOKEN"))
 
 // Check to see if the release already exists
-let releaseResponse = await octokit.rest.repos.getReleaseByTag({
-  ...github.context.repo,
-  tag: tag_name,
-})
-
-// If the release doesn't exist, create it
-if (!releaseResponse?.data?.id) {
+let releaseResponse: any = null
+try {
+  releaseResponse = await octokit.rest.repos.getReleaseByTag({
+    ...github.context.repo,
+    tag: tag_name,
+  })
+} catch (error) {
+  // If the release doesn't exist, create it
   releaseResponse = await octokit.rest.repos.createRelease({
     ...github.context.repo,
     tag_name,
@@ -35,11 +36,19 @@ if (!releaseResponse?.data?.id) {
   })
 }
 
+let release_id = releaseResponse?.data?.id
+
+if (!release_id) {
+  throw new Error(`No release_id`)
+}
+
 for await (let file of filesArray) {
   let { name } = path.parse(file)
   let output = `${name}.mp3`
 
   console.log(`Converting ${file} to ${output}`)
+
+  if (!(await isFile(file))) continue
 
   // convert the file to mp3
   await $`ffmpeg -i ${file} ${output}`
@@ -52,7 +61,7 @@ for await (let file of filesArray) {
 
   let uploadResponse = await octokit.rest.repos.uploadReleaseAsset({
     ...github.context.repo,
-    release_id: releaseResponse.data.id,
+    release_id,
     name: output,
     data: await readFile(output),
   })
