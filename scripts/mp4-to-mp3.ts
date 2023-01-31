@@ -17,7 +17,8 @@ let filesArray = files.split(`\n`).filter(Boolean)
 let tag_name = `mp3s`
 
 declare const github: any
-declare const octokit: any
+
+let octokit = github.getOctokit(await env("GITHUB_TOKEN"))
 
 // Check to see if the release already exists
 let releaseResponse = await octokit.rest.repos.getReleaseByTag({
@@ -44,8 +45,6 @@ for await (let file of filesArray) {
   await $`ffmpeg -i ${file} ${output}`
 
   console.log(`After ffmpeg...`)
-
-  let octokit = github.getOctokit(await env("GITHUB_TOKEN"))
 
   console.log(`After octokit...`)
 
